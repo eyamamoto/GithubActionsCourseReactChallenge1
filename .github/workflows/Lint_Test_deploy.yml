@@ -1,0 +1,69 @@
+##executar no github action
+#on push
+#comando lint
+#comando teste
+#build
+#Deploy - fake - não tem ambiente, apenas um step 
+
+name: Desafio1 - Lint, Test, Build, Deploy
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: recupera projeto
+        uses: actions/checkout@v3
+      
+      - name: instala o node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: instala dependencias 
+        run: npm ci
+
+      - name: executa o lint
+        run: npm lint
+
+  test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: recupera projeto
+        uses: actions/checkout@v3
+      
+      - name: instala o node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: instala dependencias 
+        run: npm ci
+
+      - name: executa o teste
+        run: npm test
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: recupera projeto
+        uses: actions/checkout@v3
+      
+      - name: instala o node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: instala dependencias 
+        run: npm ci
+
+      - name: executa o build
+        run: npm run build
+
+  deploy:
+    needs: [lint, test, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: executa o deploy
+        run: echo "deploy"
