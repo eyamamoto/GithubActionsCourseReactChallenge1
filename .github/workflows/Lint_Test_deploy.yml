@@ -58,6 +58,12 @@ jobs:
       - name: instala dependencias 
         run: npm ci
 
+      - name: executa o lint
+        run: npm run lint
+
+      - name: executa o teste
+        run: npm run test
+
       - name: executa o build
         run: npm run build
 
